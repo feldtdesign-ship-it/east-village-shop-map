@@ -1,0 +1,542 @@
+<title>East Village Storefront Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Archivo+Narrow:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --paper:#F3F1EC; --paper-2:#E9E6DF; --ink:#1B1D22; --ink-2:#4A4D55; --muted:#7A7D85; --rule:#D3CFC6;
+  --street:#FFFFFF; --street-edge:#C9C5BB; --block:#E2DED6; --park:#B9CDA8; --park-ink:#3F6533;
+  --listing:#C4472B; --apparel:#2F6F9F; --art:#3E8E5A;
+  --t1:#2E4A6B; --t2:#5B7EA0; --t3:#9DB3C9; --t4:#D5DEE8;
+  --bar:#2F6F9F; --bar-neg:#C4472B;
+  --panel:#FFFFFF; --focus:#C4472B;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#17191D; --paper-2:#1F2227; --ink:#ECE9E2; --ink-2:#C2BFB7; --muted:#8C8F97; --rule:#33373E;
+    --street:#2A2E35; --street-edge:#3E434C; --block:#1C1F24; --park:#2F4A2A; --park-ink:#A8C79A;
+    --listing:#E86A4C; --apparel:#5FA0D6; --art:#6FBF86;
+    --t1:#9DB3C9; --t2:#6E90B4; --t3:#405C7A; --t4:#2A3542;
+    --bar:#5FA0D6; --bar-neg:#E86A4C;
+    --panel:#1F2227; --focus:#E86A4C;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#17191D; --paper-2:#1F2227; --ink:#ECE9E2; --ink-2:#C2BFB7; --muted:#8C8F97; --rule:#33373E;
+  --street:#2A2E35; --street-edge:#3E434C; --block:#1C1F24; --park:#2F4A2A; --park-ink:#A8C79A;
+  --listing:#E86A4C; --apparel:#5FA0D6; --art:#6FBF86;
+  --t1:#9DB3C9; --t2:#6E90B4; --t3:#405C7A; --t4:#2A3542;
+  --bar:#5FA0D6; --bar-neg:#E86A4C;
+  --panel:#1F2227; --focus:#E86A4C;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Archivo",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;font-size:15px;line-height:1.5;font-variant-numeric:tabular-nums}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+h1,h2,h3{font-family:"Archivo",system-ui,sans-serif;font-variation-settings:"wdth" 112;letter-spacing:-.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,4.5vw,46px);font-weight:900;line-height:1.02}
+h2{font-size:22px;font-weight:800;margin:0 0 12px}
+h3{font-size:16px;font-weight:700;margin:0 0 6px}
+p{max-width:68ch;margin:0 0 10px}
+.eyebrow{font-family:"Archivo Narrow",Archivo,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--muted);font-weight:600}
+header{display:grid;grid-template-columns:1fr;gap:14px;padding-bottom:22px;border-bottom:2px solid var(--ink)}
+header .sub{color:var(--ink-2);max-width:72ch;font-size:16px}
+.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 8px}
+.verdict .v{border-top:4px solid var(--ink);padding:10px 0 0}
+.verdict .v.a{border-top-color:var(--apparel)} .verdict .v.b{border-top-color:var(--listing)} .verdict .v.c{border-top-color:var(--art)}
+.verdict .rank{font-family:"Archivo Narrow",sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.verdict h3{font-size:18px;margin:2px 0 4px}
+.verdict p{font-size:14px;color:var(--ink-2);margin:0}
+.warn{margin:18px 0 0;padding:12px 14px;border-left:4px solid var(--listing);background:var(--paper-2);max-width:none;font-size:15px}
+.warn strong{color:var(--listing)}
+section{margin-top:44px}
+.grid2{display:grid;grid-template-columns:1.6fr 1fr;gap:22px;align-items:start}
+.mapbox{background:var(--paper-2);border:1px solid var(--rule);padding:10px;overflow-x:auto}
+.mapbox svg{width:100%;height:auto;display:block;min-width:560px}
+.controls{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 10px;font-size:14px}
+.controls label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.controls input{accent-color:var(--ink)}
+.sw{display:inline-block;width:12px;height:12px;border-radius:50%}
+.sw.listing{background:var(--listing)} .sw.apparel{background:var(--apparel)} .sw.art{background:var(--art);border-radius:2px;transform:rotate(45deg)}
+.legend-tier{display:inline-flex;gap:4px;align-items:center}
+.legend-tier i{display:inline-block;width:18px;height:6px}
+.detail{background:var(--panel);border:1px solid var(--rule);padding:16px;min-height:220px;position:sticky;top:12px}
+.detail .eyebrow{margin-bottom:4px}
+.detail h3{font-size:19px}
+.detail .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:10px 0;font-size:14px}
+.detail .kv b{font-weight:600;color:var(--muted);font-family:"Archivo Narrow",sans-serif;text-transform:uppercase;letter-spacing:.06em;font-size:12px;padding-top:2px}
+.detail .hint{color:var(--muted);font-size:13px}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.tier{border-top:6px solid;padding-top:8px;font-size:14px}
+.tier .n{font-family:"Archivo Narrow",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+.tier p{margin:4px 0 0;color:var(--ink-2);font-size:13.5px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-family:"Archivo Narrow",sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:12px;color:var(--muted);text-align:left;padding:8px 10px 6px;border-bottom:2px solid var(--ink);font-weight:700}
+td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+td.num,th.num{text-align:right}
+.tablewrap{overflow-x:auto}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+.filters button{font:inherit;font-size:13px;padding:5px 11px;border:1px solid var(--rule);background:var(--panel);color:var(--ink);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.filters button:focus-visible,.controls input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.bands{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.band{padding:12px 14px;background:var(--paper-2)}
+.band .big{font-size:26px;font-weight:800;font-variation-settings:"wdth" 110;line-height:1.1}
+.band .where{font-size:13.5px;color:var(--ink-2);margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+.stat{border-top:2px solid var(--rule);padding-top:8px}
+.stat .big{font-size:24px;font-weight:800;line-height:1.1}
+.stat .lab{font-size:13px;color:var(--ink-2);margin-top:2px}
+.stat .src{font-size:12px;color:var(--muted)}
+.chart{margin:10px 0 4px}
+.chart svg{width:100%;height:auto;display:block}
+.chart text{font-family:"Archivo Narrow",Archivo,sans-serif;font-size:12px;fill:var(--ink-2)}
+.chart text.val{fill:var(--ink);font-weight:600}
+.chart line.axis{stroke:var(--rule)}
+.cap{font-size:13px;color:var(--muted);max-width:none}
+.months{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:12px 0 6px}
+.mo{padding:8px 6px 10px;background:var(--paper-2);min-height:150px;display:flex;flex-direction:column;gap:6px;border-top:5px solid var(--t4)}
+.mo[data-i="2"]{border-top-color:var(--t4)} .mo[data-i="3"]{border-top-color:var(--t3)} .mo[data-i="4"]{border-top-color:var(--t2)} .mo[data-i="5"]{border-top-color:var(--t1)}
+.mo .m{font-family:"Archivo Narrow",sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.mo .e{font-size:12px;color:var(--ink-2);line-height:1.3}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+ul{padding-left:18px;margin:6px 0}
+li{margin:3px 0}
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.who .w{background:var(--paper-2);padding:14px}
+.who .w h3{font-size:16px}
+.who .w p{font-size:14px;color:var(--ink-2);margin:0}
+.src-list{font-size:13px;columns:2;column-gap:28px}
+.src-list li{break-inside:avoid}
+a{color:var(--apparel)}
+.pin{cursor:pointer}
+.pin:focus{outline:none}
+.pin:focus-visible circle,.pin:focus-visible rect,.pin:focus-visible path{stroke:var(--focus);stroke-width:3}
+.pin.active circle,.pin.active rect,.pin.active path{stroke:var(--ink);stroke-width:3}
+@media (max-width:860px){
+  .grid2,.two,.who{grid-template-columns:1fr}
+  .verdict,.tiers,.bands,.stats{grid-template-columns:1fr 1fr}
+  .months{grid-template-columns:repeat(4,1fr)}
+  .src-list{columns:1}
+  .detail{position:static}
+}
+@media (max-width:520px){.verdict,.tiers,.bands,.stats{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.pin circle,.pin rect,.pin path{transition:stroke-width .12s}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Site brief · East Village, Manhattan · Sept 2026</div>
+  <h1>Where an apparel & art shop can actually pencil in the East Village</h1>
+  <div class="sub">One map of what is for rent, who is already selling clothes and art, who walks these blocks, and when. Built from live listings, the city's East Village needs assessment, MTA ridership, and NYC Tourism data. Pins are placed at block level from street addresses; confirm exact frontage on a walk.</div>
+</header>
+
+<div class="verdict">
+  <div class="v a"><div class="rank">First look</div><h3>E 9th St, 1st–2nd Ave</h3><p>The clothing cluster: 17+ boutiques and vintage shops on one block, ask rents near $96–130/SF, one block from the 1st Ave L. Shoppers already come here to buy clothes.</p></div>
+  <div class="v b"><div class="rank">Second</div><h3>St Marks Pl, 2nd Ave → Ave A</h3><p>Highest walk-by volume: tourists, NYU, nightlife. Asks $160–225/SF. Sephora and Barnes & Noble arrived at the 3rd Ave end in 2026, so rents are heading up.</p></div>
+  <div class="v c"><div class="rank">Third</div><h3>Avenue A, 5th–11th (Tompkins frontage)</h3><p>Local disposable income and evening traffic, roughly $100–150/SF, and enough vacancy (18% pre-COVID) to negotiate. Weaker daytime tourist flow.</p></div>
+</div>
+
+<p class="warn"><strong>The rent math is the whole decision.</strong> Independent apparel stores sell about $400–535 per square foot a year. At a St Marks ask of $200/SF, rent alone is 40–50% of typical sales. Only the ~$100/SF band (E 9th, E 7th, upper Ave A, side streets) lets floor sales carry the lease at a normal 20–25% occupancy cost. Anything pricier needs online, wholesale or event revenue on top, or a smaller room (400–750 SF).</p>
+
+<section>
+  <h2>The map</h2>
+  <div class="controls">
+    <label><input type="checkbox" id="l-listing" checked><span class="sw listing"></span> Available storefronts (<span id="n-listing"></span>)</label>
+    <label><input type="checkbox" id="l-apparel" checked><span class="sw apparel"></span> Apparel & vintage (<span id="n-apparel"></span>)</label>
+    <label><input type="checkbox" id="l-art" checked><span class="sw art"></span> Art, prints, books (<span id="n-art"></span>)</label>
+    <label><input type="checkbox" id="l-tier" checked><span class="legend-tier"><i style="background:var(--t1)"></i><i style="background:var(--t2)"></i><i style="background:var(--t3)"></i><i style="background:var(--t4)"></i></span> Corridor strength</label>
+  </div>
+  <div class="grid2">
+    <div class="mapbox"><svg id="map" viewBox="0 0 900 700" role="img" aria-label="Schematic map of the East Village street grid with available storefronts and competing shops"></svg></div>
+    <aside class="detail" id="detail" aria-live="polite">
+      <div class="eyebrow">Select a pin</div>
+      <h3>Click any dot on the map</h3>
+      <p class="hint">Circles are storefronts for rent. Squares are apparel and vintage shops. Diamonds are art, print and book shops. Subway badges use the real MTA line colors.</p>
+      <div class="kv"><b>Grid</b><span>Bowery / 3rd Ave on the left, Avenue D on the right, Houston at the bottom, 14th St at the top. St Marks is 8th St west of Avenue A.</span></div>
+    </aside>
+  </div>
+  <div class="tiers">
+    <div class="tier" style="border-color:var(--t1)"><div class="n">Strongest flow</div><p>St Marks (3rd→A), 2nd Ave, 1st Ave, 14th St, Astor Pl. Subway at both ends: 1st Ave L is the 35th busiest station in the system (6.3M riders, 2024).</p></div>
+    <div class="tier" style="border-color:var(--t2)"><div class="n">Destination blocks</div><p>E 9th, E 7th, E 10th between 2nd Ave and Ave A, and Avenue A along the park. People come on purpose, then browse.</p></div>
+    <div class="tier" style="border-color:var(--t3)"><div class="n">Local only</div><p>Avenue B and side streets east of A. Neighbors and nightlife; little walk-in from outside.</p></div>
+    <div class="tier" style="border-color:var(--t4)"><div class="n">Thin</div><p>Avenues C and D. Ten-plus minutes from any subway, 16–25% vacancy, lowest rents. Only for a destination concept.</p></div>
+  </div>
+  <p class="cap">Corridor strength is our read from subway ridership, daily vehicle counts, 2019 storefront vacancy by corridor, and where shops cluster. No public pedestrian counts exist for these blocks.</p>
+</section>
+
+<section>
+  <h2>What space costs</h2>
+  <div class="bands">
+    <div class="band"><div class="eyebrow">Prime</div><div class="big">$160–225 /SF/yr</div><div class="where">St Marks Pl, 2nd Ave (St Marks–10th), Astor/Cooper Sq. A 1,000 SF room runs $13k–19k a month.</div></div>
+    <div class="band"><div class="eyebrow">Core</div><div class="big">$100–160 /SF/yr</div><div class="where">1st Ave, Ave A, E 7th, E 9th, E 10th. A 1,000 SF room runs $8k–13k a month.</div></div>
+    <div class="band"><div class="eyebrow">Edge</div><div class="big">$60–100 /SF/yr</div><div class="where">Ave B, C, D and cross streets east of A. A 1,000 SF room runs $5k–8k a month.</div></div>
+  </div>
+  <p>Seventy-six retail spaces are listed right now, 300 to 6,700 SF. Most are "price on request," which in this market means the broker wants a conversation. Terms are typically 5–10 years, several months' security, and free rent in place of build-out money. Basement space rents at 40–60% of the ground-floor rate, which matters for stock.</p>
+  <div class="filters" id="sizefilters" role="group" aria-label="Filter listings by size">
+    <button aria-pressed="true" data-min="0" data-max="99999">All sizes</button>
+    <button aria-pressed="false" data-min="0" data-max="799">Under 800 SF</button>
+    <button aria-pressed="false" data-min="800" data-max="1599">800–1,600 SF</button>
+    <button aria-pressed="false" data-min="1600" data-max="99999">Over 1,600 SF</button>
+  </div>
+  <div class="tablewrap"><table id="listings"><thead><tr><th>Address</th><th>Block</th><th class="num">SF</th><th class="num">Ask</th><th class="num">≈ $/SF/yr</th><th>Notes</th></tr></thead><tbody></tbody></table></div>
+  <p class="cap">Sources: PropertyShark, CommercialSearch, CommercialCafe and LoopNet listings pulled 3 Sept 2026. Three sub-$1,000/month listings (328 E 14th, 510 E 13th, 92 Ave C) look like kiosks, storage or typos and are left out.</p>
+
+  <h3 style="margin-top:26px">Sales you need to cover the rent</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Ask rent</th><th class="num">Sales/SF at 20% occupancy</th><th class="num">Sales/SF at 25%</th><th>Versus $400–535/SF benchmark</th></tr></thead>
+    <tbody>
+      <tr><td>$96 (214 E 9th)</td><td class="num">$480</td><td class="num">$384</td><td>Works on floor sales alone</td></tr>
+      <tr><td>$120 (111 E 7th)</td><td class="num">$600</td><td class="num">$480</td><td>Tight but doable with a strong concept</td></tr>
+      <tr><td>$164 (118 St Marks)</td><td class="num">$820</td><td class="num">$656</td><td>Needs online or events on top</td></tr>
+      <tr><td>$209 (157 2nd Ave)</td><td class="num">$1,045</td><td class="num">$836</td><td>Flagship economics only</td></tr>
+      <tr><td>$225 (201 E 10th, 400 SF)</td><td class="num">$1,125</td><td class="num">$900</td><td>Tiny room, so absolute rent is only $7.5k/mo</td></tr>
+    </tbody></table></div>
+  <p class="cap">Occupancy cost = rent ÷ sales. NYC independents commonly run 15–25%; above that the store is working for the landlord. Benchmark from Shopify's specialty-apparel average ($400/SF) and a 500 SF Brooklyn boutique listed for sale at $267k gross ($535/SF).</p>
+</section>
+
+<section>
+  <h2>Who is already selling clothes and art here</h2>
+  <div class="stats">
+    <div class="stat"><div class="big">59</div><div class="lab">clothing, shoe & jewelry storefronts</div><div class="src">SBS inventory, 2019</div></div>
+    <div class="stat"><div class="big">+$249M</div><div class="lab">clothing sales above what residents spend</div><div class="src">ESRI 2020 — a destination market</div></div>
+    <div class="stat"><div class="big">$174k</div><div class="lab">median annual sales per East Village business</div><div class="src">NYC Finance tax data, 2020</div></div>
+    <div class="stat"><div class="big">~$1.4M</div><div class="lab">est. revenue, Trash & Vaudeville (9 staff)</div><div class="src">Datanyze estimate, low confidence</div></div>
+  </div>
+  <p>The neighborhood's clothing stores sell roughly a quarter-billion dollars more than its own residents spend on clothes. That is the clearest number in this brief: people travel here to buy apparel, mostly vintage and independent. The same data shows a $57.8M surplus in books and music and a $502M surplus in restaurants. The East Village leaks spending only on groceries, gas and department stores.</p>
+  <div class="chart" id="leak"></div>
+  <p class="cap">Retail surplus (left) means local stores sell more than residents spend, so outside shoppers are coming in. Leakage (right) means residents shop elsewhere. ESRI/Infogroup 2020 via NYC SBS.</p>
+  <div class="two" style="margin-top:18px">
+    <div>
+      <h3>Apparel & vintage, by block</h3>
+      <ul id="comp-apparel"></ul>
+    </div>
+    <div>
+      <h3>Art, prints, books & supplies</h3>
+      <ul id="comp-art"></ul>
+      <h3 style="margin-top:14px">2026 arrivals that change the west end</h3>
+      <ul>
+        <li><b>Sephora</b>, 7,800 SF at 3rd Ave & St Marks (opened May 2026)</li>
+        <li><b>Barnes & Noble</b>, announced May 2026</li>
+        <li><b>ATANY</b> made-to-order tees, 316 Bowery</li>
+        <li><b>Eloise & Daisy</b> vintage, 506 E 13th; <b>Pink Lion</b>, 318 E 9th</li>
+      </ul>
+    </div>
+  </div>
+  <p class="cap">Estimated store revenues from Datanyze/Owler are modeled, not reported. Named-store financials are not public; the SBS median and the per-square-foot benchmarks are the numbers to plan on.</p>
+</section>
+
+<section>
+  <h2>Who shops here</h2>
+  <div class="who">
+    <div class="w"><h3>Locals: two neighborhoods in one</h3><p>62,000 residents at 96,000 per square mile. West of Avenue B: renters aged 25–44 (43% of the population), 58% with a degree, private estimates put median household income at $106k–124k. East of Avenue C: long-tenured, lower-income households in public housing pull the official median down to $57k and poverty to 24%. Household size is 1.83; only 16% own a car.</p></div>
+    <div class="w"><h3>Daytime: workers and students</h3><p>15,500 people work in the East Village; 39% of those jobs are food, bars and arts, 21% education and health. Cooper Union sits at the west edge and NYU keeps adding dorms (it bought 35 Cooper Square in 2024). Students thin out mid-May to late August.</p></div>
+    <div class="w"><h3>Visitors</h3><p>NYC drew 65M visitors in 2025 (52.4M domestic, 12.5M international) and forecasts 66.3M for 2026. The East Village is not a top-ten tourist stop; St Marks between 3rd and 2nd is the one block that behaves like one. Visitors arrive from the tri-state area, Philadelphia, DC, LA and Boston.</p></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="big">84%</div><div class="lab">of surveyed shoppers shop here daily</div><div class="src">LES Partnership survey, 409 shoppers</div></div>
+    <div class="stat"><div class="big">72%</div><div class="lab">arrive on foot, 13% by subway, 7% by bike</div><div class="src">Same survey</div></div>
+    <div class="stat"><div class="big">$158 /wk</div><div class="lab">spent locally by a pedestrian shopper; cyclists $163, subway riders $111</div><div class="src">Transportation Alternatives, 2012</div></div>
+    <div class="stat"><div class="big">#3</div><div class="lab">"Clothing stores" rank among the businesses shoppers asked for more of</div><div class="src">After local independents and cafés</div></div>
+  </div>
+  <div class="chart" id="subway"></div>
+  <p class="cap">Annual riders, 2024, MTA. Rank out of 423 stations. Every station is on the north or west edge; nothing serves Avenues C and D.</p>
+</section>
+
+<section>
+  <h2>When they shop</h2>
+  <p>The East Village behaves like what Placer.ai calls a lifestyle corridor: traffic peaks in spring and early summer and again in December, rather than December only like SoHo. Nationally, November–December carry about 19% of annual retail sales. Pop-up operators here price August lowest and fashion weeks (February, September) and the holidays highest.</p>
+  <div class="months" id="months"></div>
+  <p class="cap">Bar color is our estimate of relative retail traffic, 1 (low) to 5 (peak), combining NRF holiday shares, Placer.ai corridor typology, pop-up pricing and the event calendar. Dates are 2026.</p>
+</section>
+
+<section>
+  <h2>How to read the risks</h2>
+  <div class="two">
+    <div>
+      <h3>Working for you</h3>
+      <ul>
+        <li>Clothing is a proven destination category here (+$249M surplus).</li>
+        <li>Vacancy is falling: 15.4% across LES/EV in Oct 2025, down from 2023. Landlords still deal.</li>
+        <li>Shoppers walk and come daily. A good window sells by itself.</li>
+        <li>Shoppers explicitly asked for more clothing stores and galleries.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Working against you</h3>
+      <ul>
+        <li>Prime asks are 2–3× what floor sales support. Negotiate on the "price on request" spaces.</li>
+        <li>Chains are landing at the 3rd Ave end; expect rent pressure to move east along St Marks.</li>
+        <li>336 East Village businesses closed 2019–21. Median tenure is 9 years; 95% of merchants rent.</li>
+        <li>Summer and January are soft; students leave; locals travel. Plan cash for a 20–30% dip.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Sources</h2>
+  <ul class="src-list">
+    <li><a href="https://www.propertyshark.com/cre/retail/us/ny/manhattan/east-village/">PropertyShark, East Village retail listings</a></li>
+    <li><a href="https://www.commercialcafe.com/retail/us/ny/manhattan/east-village/">CommercialCafe, East Village retail (76 listings)</a></li>
+    <li><a href="https://www.commercialsearch.com/retail/us/ny/manhattan/east-village/">CommercialSearch, East Village retail</a></li>
+    <li><a href="https://www.loopnet.com/Listing/118-St-Marks-Pl-New-York-NY/27986259/">LoopNet, 118 St Marks Pl</a></li>
+    <li><a href="https://www.nyc.gov/assets/sbs/downloads/pdf/neighborhoods/avenyc-cdna-eastvillage.pdf">NYC SBS, East Village Commercial District Needs Assessment (2020)</a></li>
+    <li><a href="https://www.rebny.com/reports/manhattan-retail-report-first-half-2026/">REBNY Manhattan Retail Report, H1 2026</a></li>
+    <li><a href="https://www.metro-manhattan.com/commercial-space/retail-space/">Metro Manhattan, NYC retail lease terms</a></li>
+    <li><a href="https://www.thestorefront.com/search/new-york/east-village">Storefront, East Village pop-up pricing</a></li>
+    <li><a href="https://www.manhattancc.org/storefront-tracker/">Manhattan Chamber, Storefront Tracker</a></li>
+    <li><a href="https://comptroller.nyc.gov/newsroom/press-releases/new-report-citywide-storefront-vacancies-decline-but-some-neighborhoods-still-face-20-empty-retail-spaces/">NYC Comptroller, storefront vacancy (June 2026)</a></li>
+    <li><a href="https://www.business.nyctourism.com/press-media/press-releases/NYC-Tourism-Annual-Report-March-2026">NYC Tourism + Conventions, 2025 annual report</a></li>
+    <li><a href="https://nrf.com/research-insights/holiday-data-and-trends/winter-holidays">NRF, winter holiday data</a></li>
+    <li><a href="https://www.placer.ai/anchor/articles/seasonal-foot-traffic-trends-tells-a-tale-of-two-types-of-retail-corridors">Placer.ai, seasonal corridor types</a></li>
+    <li><a href="https://nyc.streetsblog.org/2012/10/02/ta-survey-customers-on-foot-bring-big-business-to-east-village-retailers">Transportation Alternatives, East Village Shoppers Study</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/First_Avenue_station_(BMT_Canarsie_Line)">MTA 2024 ridership via Wikipedia station pages</a></li>
+    <li><a href="http://thelocalartisanguide.com/east-village-2026">Local Artisan Guide, East Village 2026</a></li>
+    <li><a href="https://theshopkeepers.com/guides/east-village/">The Shopkeepers, East Village guide</a></li>
+    <li><a href="https://evgrieve.com/2026/">EV Grieve, 2026 openings and closings</a></li>
+    <li><a href="https://datausa.io/profile/geo/nyc-manhattan-community-district-3-lower-east-side-chinatown-puma-ny">Data USA, Manhattan CD3 (2024)</a></li>
+    <li><a href="https://www.shopify.com/enterprise/blog/sales-per-square-foot">Shopify, sales per square foot benchmarks</a></li>
+  </ul>
+</section>
+</div>
+
+<script>
+(function(){
+// ---- geometry: avenue index 0..6 (Bowery/3rd, 2nd, 1st, A, B, C, D); street index 0..14 (Houston..14th)
+const X0=70, DX=125, Y0=640, DY=40;
+const ax=i=>X0+i*DX, sy=j=>Y0-j*DY;
+const aveNames=['Bowery / 3rd Av','2nd Av','1st Av','Av A','Av B','Av C','Av D'];
+
+// ---- data
+const listings=[
+ {n:'157 Second Ave',x:1,y:10,sf:2318,ask:'$209/SF/yr',psf:209,blk:'2nd Ave at 10th',note:'Largest priced space; corner-adjacent, prime band'},
+ {n:'201 E 10th St',x:0.15,y:10,sf:400,ask:'$225/SF/yr',psf:225,blk:'10th, 3rd–2nd Ave',note:'Tiny room, ~$7.5k/mo all in'},
+ {n:'118 St Marks Pl',x:2.55,y:8,sf:1100,ask:'$15,000/mo',psf:164,blk:'St Marks, 1st–A',note:'LoopNet; quieter end of St Marks'},
+ {n:'111 E 7th St',x:2.3,y:7,sf:1100,ask:'$120–153/SF/yr',psf:136,blk:'7th, 1st–A',note:'Two sources disagree on ask; same block as Trash & Vaudeville'},
+ {n:'103 E 2nd St',x:1.6,y:2,sf:800,ask:'$8,500/mo',psf:128,blk:'2nd St, approx 2nd–1st',note:'Block placement approximate'},
+ {n:'214 E 9th St',x:0.3,y:9,sf:1500,ask:'$96/SF/yr',psf:96,blk:'9th, 3rd–2nd Ave',note:'Cheapest priced core space; one block west of the boutique strip'},
+ {n:'17 St Marks Pl',x:0.35,y:8,sf:1800,ask:'On request',psf:null,blk:'St Marks, 3rd–2nd',note:'Tourist block, next to the new Sephora end'},
+ {n:'27 St Marks Pl',x:0.55,y:8,sf:null,ask:'On request',psf:null,blk:'St Marks, 3rd–2nd',note:'Size not listed'},
+ {n:'31 St Marks Pl',x:0.65,y:8,sf:1000,ask:'On request',psf:null,blk:'St Marks, 3rd–2nd',note:''},
+ {n:'34 St Marks Pl',x:0.72,y:8,sf:750,ask:'On request',psf:null,blk:'St Marks, 3rd–2nd',note:'Boutique-sized'},
+ {n:'100 St Marks Pl',x:2.1,y:8,sf:1000,ask:'On request',psf:null,blk:'St Marks, 1st–A',note:'HVAC in place, contiguous basement, most uses considered'},
+ {n:'110 St Marks Pl',x:2.3,y:8,sf:650,ask:'On request',psf:null,blk:'St Marks, 1st–A',note:''},
+ {n:'120 E 7th St',x:2.5,y:7,sf:700,ask:'On request',psf:null,blk:'7th, 1st–A',note:''},
+ {n:'249 E 10th St',x:1.85,y:10,sf:700,ask:'On request',psf:null,blk:'10th, 2nd–1st',note:'Beside the 10th St shop cluster'},
+ {n:'263 E 10th St',x:2.2,y:10,sf:350,ask:'On request',psf:null,blk:'10th, 1st–A',note:'Same building as Niconeco and From Lucie'},
+ {n:'146 1st Ave',x:2,y:9,sf:2000,ask:'On request',psf:null,blk:'1st Ave at 9th',note:'Corner of the E 9th strip'},
+ {n:'214 1st Ave',x:2,y:13,sf:1000,ask:'On request',psf:null,blk:'1st Ave at 13th',note:'Near L train'},
+ {n:'219 1st Ave',x:2,y:13.35,sf:1165,ask:'On request',psf:null,blk:'1st Ave at 13th',note:''},
+ {n:'223 1st Ave',x:2,y:13.7,sf:1045,ask:'On request',psf:null,blk:'1st Ave at 13th–14th',note:'Steps from 1st Ave L'},
+ {n:'72 2nd Ave',x:1,y:4.5,sf:'713–2,094',sfn:713,ask:'On request',psf:null,blk:'2nd Ave at 4th',note:'3 units'},
+ {n:'82 2nd Ave',x:1,y:5,sf:650,ask:'On request',psf:null,blk:'2nd Ave at 5th',note:''},
+ {n:'104 2nd Ave',x:1,y:6.3,sf:1500,ask:'On request',psf:null,blk:'2nd Ave at 6th',note:''},
+ {n:'28–30 Avenue A',x:3,y:2.5,sf:5000,ask:'On request',psf:null,blk:'Ave A at 2nd–3rd',note:'Too big unless shared'},
+ {n:'50 Avenue A',x:3,y:4,sf:'1,500–2,900',sfn:1500,ask:'On request',psf:null,blk:'Ave A at 4th',note:'2 units'},
+ {n:'85 Avenue A',x:3,y:5.7,sf:1900,ask:'On request',psf:null,blk:'Ave A at 5th–6th',note:''},
+ {n:'189 Avenue A',x:3,y:11.8,sf:1000,ask:'On request',psf:null,blk:'Ave A at 12th',note:''},
+ {n:'197 Avenue A',x:3,y:12.3,sf:3000,ask:'On request',psf:null,blk:'Ave A at 12th',note:'LoopNet'},
+ {n:'199 Avenue A',x:3,y:12.6,sf:300,ask:'On request',psf:null,blk:'Ave A at 12th–13th',note:'Micro space'},
+ {n:'125 E 4th St',x:1.4,y:4,sf:700,ask:'On request',psf:null,blk:'4th, 2nd–1st',note:''},
+ {n:'325 E 5th St',x:1.5,y:5,sf:'500–800',sfn:500,ask:'On request',psf:null,blk:'5th, 2nd–1st',note:'2 units'},
+ {n:'246 E 5th St',x:0.6,y:5,sf:'200–500',sfn:200,ask:'On request',psf:null,blk:'5th, Bowery–2nd',note:'4 micro units'},
+ {n:'501 E 6th St',x:3.1,y:6,sf:795,ask:'On request',psf:null,blk:'6th, A–B',note:''},
+ {n:'273 E 3rd St',x:3.3,y:3,sf:1900,ask:'On request',psf:null,blk:'3rd St, approx A–B',note:'Block placement approximate'},
+ {n:'251 E 13th St',x:1.5,y:13,sf:350,ask:'On request',psf:null,blk:'13th, 2nd–1st',note:''},
+ {n:'530 E 13th St',x:3.4,y:13,sf:'300–350',sfn:300,ask:'On request',psf:null,blk:'13th, A–B',note:'2 units'},
+ {n:'174 Avenue B',x:4,y:11.2,sf:1250,ask:'On request',psf:null,blk:'Ave B at 11th',note:''},
+ {n:'167 Avenue B',x:4,y:10.8,sf:1000,ask:'On request',psf:null,blk:'Ave B at 11th',note:''},
+ {n:'169 Avenue B',x:4,y:10.5,sf:500,ask:'On request',psf:null,blk:'Ave B at 10th–11th',note:''},
+ {n:'105 Avenue B',x:4,y:7,sf:2000,ask:'On request',psf:null,blk:'Ave B at 7th',note:'Faces Tompkins Square Park'},
+ {n:'38 Avenue C',x:5,y:3.5,sf:2300,ask:'On request',psf:null,blk:'Ave C at 3rd–4th',note:'Corner'},
+ {n:'177 Avenue C',x:5,y:11,sf:1700,ask:'On request',psf:null,blk:'Ave C at 11th',note:''},
+ {n:'51 Astor Place',x:-0.25,y:8,sf:2363,ask:'On request',psf:null,blk:'Astor Place',note:'Office-lobby retail; new-build rents'},
+ {n:'37 Cooper Square',x:0,y:6.5,sf:1575,ask:'On request',psf:null,blk:'Cooper Sq at 6th',note:''},
+ {n:'303 Bowery',x:0,y:1.2,sf:4602,ask:'On request',psf:null,blk:'Bowery at 1st St',note:'Too big'},
+ {n:'218 E 14th St',x:0.5,y:14,sf:6733,ask:'On request',psf:null,blk:'14th, 3rd–2nd',note:'Too big'},
+ {n:'328 E 14th St',x:1.4,y:14,sf:1000,ask:'On request',psf:null,blk:'14th, 2nd–1st',note:'Portfolio of 14th St spaces'},
+ {n:'426 E 14th St',x:2.4,y:14,sf:1720,ask:'On request',psf:null,blk:'14th, 1st–A',note:''},
+ {n:'500 E 14th St',x:3,y:14,sf:2425,ask:'On request',psf:null,blk:'14th at Ave A',note:'New building; L stop at 1st Ave'},
+ {n:'644 E 14th St',x:4.5,y:14,sf:'997–3,992',sfn:997,ask:'On request',psf:null,blk:'14th, B–C',note:'5 units, new development'},
+ {n:'250 E Houston St',x:2.5,y:0,sf:1300,ask:'On request',psf:null,blk:'Houston, 1st–A',note:''}
+];
+const apparel=[
+ {n:'Cobblestones',a:'314 E 9th',x:1.25,y:9,d:'Vintage clothing, since 1981'},
+ {n:'Pink Lion',a:'318 E 9th',x:1.32,y:9,d:'Emerging independent labels (opened fall 2024)'},
+ {n:'Ibiza NYC',a:'321 E 9th',x:1.38,y:9,d:'Young international designers'},
+ {n:'DUO NYC / D.L. Cerney',a:'324 E 9th',x:1.45,y:9,d:'Vintage + independent designer, tailored one-offs'},
+ {n:'Spark Pretty',a:'333 E 9th',x:1.55,y:9,d:"80s–90s rock & roll vintage"},
+ {n:'Cloak & Dagger',a:'334 E 9th',x:1.62,y:9,d:'French-inspired apparel + vintage'},
+ {n:'Fabulous Fanny',a:'335 E 9th',x:1.7,y:9,d:'Vintage & designer eyewear'},
+ {n:'9th Street Vintage',a:'346 E 9th',x:1.85,y:9,d:'Pre-1960s womenswear'},
+ {n:'an.mé',a:'328 E 9th',x:1.78,y:9,d:"Kids' clothing & toys"},
+ {n:'Fucking Awesome',a:'420 E 9th',x:2.2,y:9,d:'Skate streetwear'},
+ {n:'Salvage Cloth',a:'434 E 9th',x:2.45,y:9,d:'Up-cycled fabric brand'},
+ {n:'Star Team',a:'436 E 9th',x:2.55,y:9,d:'Skate & streetwear'},
+ {n:'Mr Throwback',a:'437 E 9th',x:2.65,y:9,d:'90s sports apparel'},
+ {n:"Annie's Thrift & Vintage",a:'440 E 9th',x:2.8,y:9,d:'Curated femme vintage'},
+ {n:'Trash & Vaudeville',a:'96 E 7th',x:2.15,y:7,d:'Punk & rock apparel since 1975; est. $1.4M revenue, 9 staff'},
+ {n:"Enz's",a:'76 E 7th',x:1.55,y:7,d:'1950s-style womenswear'},
+ {n:'East Village Hats',a:'80 E 7th',x:1.65,y:7,d:'Handmade hats'},
+ {n:'AuH2O',a:'84 E 7th',x:1.75,y:7,d:'Vintage womenswear'},
+ {n:"Theo's Haberdashery",a:'13 E 7th',x:0.3,y:7,d:'Vintage menswear & Americana'},
+ {n:'Buffalo Exchange',a:'332 E 11th',x:1.55,y:11,d:'Buy-sell-trade chain'},
+ {n:'Tokyo Joe',a:'334 E 11th',x:1.65,y:11,d:'Designer consignment'},
+ {n:'Vintage Reserve',a:'328 E 11th',x:1.45,y:11,d:'Leather & coats'},
+ {n:'Wait A Second / Project Vintage',a:'520 E 11th',x:3.35,y:11,d:'Designer vintage; workwear & denim'},
+ {n:'Stock Vintage',a:'143 E 13th',x:0.4,y:13,d:'Vintage menswear 1900s–70s'},
+ {n:'Eloise & Daisy',a:'506 E 13th',x:3.15,y:13,d:'High-end secondhand (opened 2026)'},
+ {n:'Flamingo Vintage',a:'4 St Marks',x:0.12,y:8,d:'Vintage by the pound'},
+ {n:'Hello Banana',a:'156 1st Ave',x:2,y:9.6,d:'60s–70s womenswear'},
+ {n:'L Train Vintage',a:'204 1st Ave',x:2,y:12.4,d:'70s–90s vintage; est. $763k revenue, 6 staff'},
+ {n:'Dö Kham',a:'117 1st Ave',x:2,y:7.3,d:'Tibetan apparel'},
+ {n:'Azaleas',a:'140 2nd Ave',x:1,y:8.7,d:'Lingerie & emerging designers'},
+ {n:'Nomad Vintage',a:'208 E 6th',x:0.35,y:6,d:'Avant-garde designer vintage'},
+ {n:'Pourquoi Pas',a:'219 E 10th',x:1.35,y:10,d:'French & Italian womenswear'},
+ {n:'ATANY',a:'316 Bowery',x:0,y:1.6,d:'Made-to-order tees (opening 2026)'}
+];
+const art=[
+ {n:'Pageant Print Shop',a:'69 E 4th',x:0.6,y:4,d:'Antique maps, posters, prints since 1946'},
+ {n:"Archie's Press",a:'220 E 10th',x:1.42,y:10,d:'Letterpress & riso prints'},
+ {n:'Spooksvilla + Friends',a:'309 E 9th',x:1.2,y:9,d:'Art prints & small goods'},
+ {n:'212 Arts',a:'523 E 12th',x:3.4,y:12,d:'Urban contemporary gallery, limited prints'},
+ {n:'Kalsang Pottery',a:'241 E 10th',x:1.75,y:10,d:'Hand-thrown ceramics'},
+ {n:'Village Works',a:'12 St Marks',x:0.28,y:8,d:'Books, art, streetwear, gallery'},
+ {n:'Do You Read Me?! @ Swiss Institute',a:'38 St Marks',x:0.82,y:8,d:'Art bookstore'},
+ {n:'New York Central Art Supply',a:'62 3rd Ave',x:0,y:11,d:'Art supplies, 3 floors'},
+ {n:'Blick Art Materials',a:'111 4th Ave',x:-0.35,y:12,d:'Art supplies (Union Sq edge)'},
+ {n:'John Derian',a:'6–10 E 2nd',x:0.25,y:2,d:'Decoupage, home, three storefronts'},
+ {n:'Mast Books',a:'72 Ave A',x:3,y:5,d:'Rare & used books'},
+ {n:'East Village Books',a:'99 St Marks',x:2.1,y:8.15,d:'Used books'},
+ {n:'Rosemary Home',a:'315 E 9th',x:1.28,y:9.15,d:'Vintage objects & jewelry'},
+ {n:'La Sirena',a:'27 E 3rd',x:0.45,y:3,d:'Mexican folk art'},
+ {n:'Babs Home & Pantry',a:'149 Ave A',x:3,y:9.6,d:'Home goods by local artists'}
+];
+// counts
+document.getElementById('n-listing').textContent=listings.length;
+document.getElementById('n-apparel').textContent=apparel.length;
+document.getElementById('n-art').textContent=art.length;
+
+// ---- corridor tiers (segments): [aveFrom,aveTo,street] for E-W; [ave,stFrom,stTo] for N-S
+const tiers={
+ t1:{ew:[[0,3,8],[0,6,14],[0,3,0]],ns:[[1,3,14],[2,0,14]]},
+ t2:{ew:[[1,3,9],[0,3,7],[1,3,10],[3,6,0]],ns:[[3,2,12],[0,0,8]]},
+ t3:{ew:[[0,1,9],[3,4,9],[3,4,7],[0,4,6],[1,4,11],[0,4,13],[0,4,12],[0,4,5],[0,4,4],[0,4,3],[0,4,2],[0,4,1],[3,4,10]],ns:[[4,0,14],[3,0,2],[3,12,14],[0,8,14]]},
+ t4:{ew:[[4,6,1],[4,6,2],[4,6,3],[4,6,4],[4,6,5],[4,6,6],[4,6,7],[4,6,8],[4,6,9],[4,6,10],[4,6,11],[4,6,12],[4,6,13]],ns:[[5,0,14],[6,0,14]]}
+};
+
+const svg=document.getElementById('map');
+const NS='http://www.w3.org/2000/svg';
+const el=(t,attrs,txt)=>{const e=document.createElementNS(NS,t);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;return e;};
+
+// blocks background
+svg.appendChild(el('rect',{x:0,y:0,width:900,height:700,fill:'var(--block)'}));
+// park
+svg.appendChild(el('rect',{x:ax(3),y:sy(10),width:DX,height:DY*3,fill:'var(--park)'}));
+svg.appendChild(el('text',{x:ax(3)+DX/2,y:sy(8.5)+4,'text-anchor':'middle','font-family':'Archivo Narrow, sans-serif','font-size':'12','font-weight':'700',fill:'var(--park-ink)'},'TOMPKINS SQ'));
+// streets: white lines
+const gStreets=el('g',{stroke:'var(--street)','stroke-width':'8','stroke-linecap':'square'});
+for(let j=0;j<=14;j++){ if(j===8||j===9) {gStreets.appendChild(el('line',{x1:ax(0)-40,y1:sy(j),x2:ax(3),y2:sy(j)})); gStreets.appendChild(el('line',{x1:ax(4),y1:sy(j),x2:ax(6)+30,y2:sy(j)}));} else gStreets.appendChild(el('line',{x1:ax(0)-40,y1:sy(j),x2:ax(6)+30,y2:sy(j)})); }
+for(let i=0;i<=6;i++) gStreets.appendChild(el('line',{x1:ax(i),y1:sy(14)-20,x2:ax(i),y2:sy(0)+20,'stroke-width':i<=3?'12':'9'}));
+svg.appendChild(gStreets);
+// tier overlay
+const gTier=el('g',{id:'g-tier','stroke-linecap':'butt',opacity:'0.9'});
+const tierColor={t1:'var(--t1)',t2:'var(--t2)',t3:'var(--t3)',t4:'var(--t4)'};
+['t4','t3','t2','t1'].forEach(t=>{
+  tiers[t].ew.forEach(s=>gTier.appendChild(el('line',{x1:ax(s[0]),y1:sy(s[2]),x2:ax(s[1]),y2:sy(s[2]),stroke:tierColor[t],'stroke-width':'4'})));
+  tiers[t].ns.forEach(s=>gTier.appendChild(el('line',{x1:ax(s[0]),y1:sy(s[1]),x2:ax(s[0]),y2:sy(s[2]),stroke:tierColor[t],'stroke-width':'5'})));
+});
+svg.appendChild(gTier);
+// labels
+const gLab=el('g',{'font-family':'Archivo Narrow, sans-serif','font-size':'11',fill:'var(--ink-2)'});
+aveNames.forEach((n,i)=>gLab.appendChild(el('text',{x:ax(i),y:sy(14)-28,'text-anchor':'middle','font-weight':'700'},n)));
+for(let j=0;j<=14;j++){const name=j===0?'Houston':j===8?'St Marks / 8th':j+(j===1?'st':j===2?'nd':j===3?'rd':'th');gLab.appendChild(el('text',{x:ax(6)+38,y:sy(j)+4,'font-size':'10'},name));}
+gLab.appendChild(el('text',{x:ax(0)-42,y:sy(8)-8,'font-size':'10','font-weight':'700'},'Astor Pl'));
+gLab.appendChild(el('text',{x:ax(0)+6,y:sy(6.5)+3,'font-size':'10'},'Cooper Sq'));
+svg.appendChild(gLab);
+// subway badges
+const subs=[{l:'6',c:'#00933C',x:ax(0)-40,y:sy(8),t:'Astor Pl · 4.1M/yr'},{l:'L',c:'#A7A9AC',x:ax(0),y:sy(14),t:'3rd Av · 6.7k/wkday'},{l:'L',c:'#A7A9AC',x:ax(2),y:sy(14),t:'1st Av · 6.3M/yr'},{l:'F',c:'#FF6319',x:ax(1)+55,y:sy(0),t:'2nd Av · 4.2M/yr'}];
+const gSub=el('g');
+subs.forEach(s=>{const g=el('g');g.appendChild(el('circle',{cx:s.x,cy:s.y,r:11,fill:s.c,stroke:'#fff','stroke-width':'2'}));g.appendChild(el('text',{x:s.x,y:s.y+4.5,'text-anchor':'middle','font-family':'Helvetica, Arial, sans-serif','font-size':'13','font-weight':'700',fill:'#fff'},s.l));g.appendChild(el('title',{},s.t));gSub.appendChild(g);});
+svg.appendChild(gSub);
+
+// pins
+const detail=document.getElementById('detail');
+let active=null;
+function showDetail(kind,d){
+  if(active) active.classList.remove('active');
+  const label=kind==='listing'?'Available storefront':kind==='apparel'?'Apparel & vintage':'Art, prints & books';
+  let kv='';
+  if(kind==='listing'){
+    kv=`<div class="kv"><b>Block</b><span>${d.blk}</span><b>Size</b><span>${d.sf?(typeof d.sf==='number'?d.sf.toLocaleString()+' SF':d.sf+' SF'):'not listed'}</span><b>Ask</b><span>${d.ask}${d.psf?` (≈ $${d.psf}/SF/yr)`:''}</span>${d.psf?`<b>Sales to carry it</b><span>$${Math.round(d.psf/0.2).toLocaleString()}/SF at 20% occupancy</span>`:''}${d.note?`<b>Notes</b><span>${d.note}</span>`:''}</div>`;
+  } else {
+    kv=`<div class="kv"><b>Address</b><span>${d.a}</span><b>What</b><span>${d.d}</span></div>`;
+  }
+  detail.innerHTML=`<div class="eyebrow">${label}</div><h3>${d.n}</h3>${kv}<p class="hint">Block-level placement from the street address.</p>`;
+}
+function addPins(arr,kind,shape){
+  const g=el('g',{id:'g-'+kind});
+  arr.forEach(d=>{
+    const cx=ax(d.x), cy=sy(d.y)+(kind==='listing'?-9:kind==='apparel'?9:0);
+    const p=el('g',{class:'pin',tabindex:'0',role:'button'});
+    p.setAttribute('aria-label',d.n);
+    let s;
+    if(shape==='circle') s=el('circle',{cx,cy,r:7,fill:'var(--listing)',stroke:'var(--paper)','stroke-width':'2'});
+    else if(shape==='square') s=el('rect',{x:cx-6,y:cy-6,width:12,height:12,fill:'var(--apparel)',stroke:'var(--paper)','stroke-width':'2'});
+    else s=el('path',{d:`M${cx} ${cy-8} L${cx+8} ${cy} L${cx} ${cy+8} L${cx-8} ${cy} Z`,fill:'var(--art)',stroke:'var(--paper)','stroke-width':'2'});
+    p.appendChild(s); p.appendChild(el('title',{},d.n+(d.a?' · '+d.a:'')));
+    const act=()=>{showDetail(kind,d);active=p;p.classList.add('active');};
+    p.addEventListener('click',act); p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act();}});
+    g.appendChild(p);
+  });
+  svg.appendChild(g);
+}
+addPins(art,'art','diamond'); addPins(apparel,'apparel','square'); addPins(listings,'listing','circle');
+[['l-listing','g-listing'],['l-apparel','g-apparel'],['l-art','g-art'],['l-tier','g-tier']].forEach(([c,g])=>{document.getElementById(c).addEventListener('change',e=>{document.getElementById(g).style.display=e.target.checked?'':'none';});});
+
+// listings table
+const tb=document.querySelector('#listings tbody');
+function renderTable(min,max){
+  tb.innerHTML='';
+  listings.slice().sort((a,b)=>(b.psf||0)-(a.psf||0)||((typeof a.sf==='number'?a.sf:a.sfn||0)-(typeof b.sf==='number'?b.sf:b.sfn||0))).forEach(d=>{
+    const size=typeof d.sf==='number'?d.sf:(d.sfn||0);
+    if(!(size>=min&&size<=max)&&!(d.sf==null&&min===0))return;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${d.n}</td><td>${d.blk}</td><td class="num">${d.sf?(typeof d.sf==='number'?d.sf.toLocaleString():d.sf):'—'}</td><td class="num">${d.ask}</td><td class="num">${d.psf?'$'+d.psf:'—'}</td><td>${d.note||''}</td>`;
+    tb.appendChild(tr);
+  });
+}
+renderTable(0,99999);
+document.querySelectorAll('#sizefilters button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#sizefilters button').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');renderTable(+b.dataset.min,+b.dataset.max);}));
+
+// competitor lists
+function group(arr){const m={};arr.forEach(d=>{const k=d.a.replace(/^[\d–\-\s]+/,'').trim();(m[k]=m[k]||[]).push(d);});return m;}
+function fillList(id,arr){const ul=document.getElementById(id);const m=group(arr);Object.keys(m).sort((a,b)=>m[b].length-m[a].length).forEach(k=>{const li=document.createElement('li');li.innerHTML=`<b>${k}</b> (${m[k].length}): `+m[k].map(d=>d.n).join(', ');ul.appendChild(li);});}
+fillList('comp-apparel',apparel); fillList('comp-art',art);
+
+// leakage chart (horizontal bars, one scale)
+(function(){
+  const rows=[['Restaurants & eating places',-502],['Other misc. store retailers',-415.2],['Clothing stores',-249.2],['Shoe stores',-92.6],['Drinking places',-65.5],['Book, periodical & music',-57.8],['Health & personal care',-50.5],['Beer, wine & liquor',-34.2],['Jewelry, luggage, leather',-25.1],['Home furnishings',29.1],['Other general merchandise',146.1],['Department stores',210.7],['Gasoline stations',307.8],['Grocery stores',337]];
+  const W=860,H=rows.length*24+40,L=230,R=40,mid=L+(W-L-R)*(502/(502+337)),scale=(W-L-R)/(502+337);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Retail surplus and leakage by category">`;
+  s+=`<line class="axis" x1="${mid}" y1="8" x2="${mid}" y2="${H-24}"/>`;
+  rows.forEach((r,i)=>{const y=12+i*24;const v=r[1];const w=Math.abs(v)*scale;const x=v<0?mid-w:mid;const col=v<0?'var(--bar)':'var(--bar-neg)';
+    s+=`<text x="${L-8}" y="${y+13}" text-anchor="end">${r[0]}</text><rect x="${x}" y="${y}" width="${w}" height="16" rx="3" fill="${col}"><title>${r[0]}: ${v<0?'surplus':'leakage'} $${Math.abs(v)}M</title></rect><text class="val" x="${v<0?x-6:x+w+6}" y="${y+13}" text-anchor="${v<0?'end':'start'}">$${Math.abs(v)}M</text>`;});
+  s+=`<text x="${mid-8}" y="${H-6}" text-anchor="end">◀ surplus: outsiders buy here</text><text x="${mid+8}" y="${H-6}">leakage: residents buy elsewhere ▶</text></svg>`;
+  document.getElementById('leak').innerHTML=s;
+})();
+// subway chart
+(function(){
+  const rows=[['1st Av (L)',6.27,'#35'],['2nd Av (F)',4.24,'#67'],['Astor Pl (6)',4.06,'#75']];
+  const W=860,H=rows.length*30+30,L=110,R=90,scale=(W-L-R)/7;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Annual subway ridership at East Village stations, 2024">`;
+  rows.forEach((r,i)=>{const y=8+i*30;const w=r[1]*scale;s+=`<text x="${L-8}" y="${y+14}" text-anchor="end">${r[0]}</text><rect x="${L}" y="${y}" width="${w}" height="18" rx="3" fill="var(--bar)"><title>${r[0]}: ${r[1]}M riders in 2024, rank ${r[2]}</title></rect><text class="val" x="${L+w+8}" y="${y+14}">${r[1]}M · rank ${r[2]}</text>`;});
+  [0,2,4,6].forEach(t=>{s+=`<line class="axis" x1="${L+t*scale}" y1="${H-22}" x2="${L+t*scale}" y2="${H-18}"/><text x="${L+t*scale}" y="${H-4}" text-anchor="middle">${t}M</text>`;});
+  s+=`<line class="axis" x1="${L}" y1="${H-22}" x2="${L+7*scale}" y2="${H-22}"/></svg>`;
+  document.getElementById('subway').innerHTML=s;
+})();
+// months
+(function(){
+  const m=[['Jan',2,'Post-holiday low. Returns, sales racks.'],['Feb',2,'NY Fashion Week bump; cold, short days.'],['Mar',3,'Spring lift begins; NYU spring break dip.'],['Apr',3,'Tompkins fills; patio season starts.'],['May',5,'Ukrainian Fest 15–17 (E 7th) · Dance Parade 16 · Loisaida Fest 24 (Ave C) · NYU graduation.'],['Jun',4,'Pride; early summer visitors; students gone.'],['Jul',3,'Tourist high, locals travel. Heat.'],['Aug',2,'Weakest month; cheapest pop-up rates. NYU move-in last week.'],['Sep',4,'Fashion Week; students back; best weather.'],['Oct',4,'Halloween Dog Parade 19 (Tompkins); Halloween week.'],['Nov',4,'Thanksgiving: 8M visitors city-wide through New Year.'],['Dec',5,'Peak. Nov–Dec ≈ 19% of annual retail sales.']];
+  document.getElementById('months').innerHTML=m.map(x=>`<div class="mo" data-i="${x[1]}"><div class="m">${x[0]}</div><div class="e">${x[2]}</div></div>`).join('');
+})();
+})();
+</script>
