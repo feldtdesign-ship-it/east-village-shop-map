@@ -10,3 +10,7 @@ A site brief for a possible apparel & art shop in the East Village, Manhattan (S
 Also mirrored at https://claude.ai/code/artifact/7e24d8e4-75f8-447d-b300-020f61eaac2d
 
 Pins are placed at block level from street addresses. Verify exact frontage on a walk.
+
+## Rebuilding
+
+`index.html` is generated: run `./build.sh ../east-village-retail-map.html` to wrap the map page with the link-preview tags. `og-card.html` and `icon.html` are the sources for `og.png` and `icon.png` (rendered with headless Chrome).
