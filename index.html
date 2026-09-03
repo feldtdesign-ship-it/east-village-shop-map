@@ -1,106 +1,119 @@
 <title>East Village Storefront Map</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Archivo+Narrow:wght@400;500;600;700&display=swap">
 <style>
 :root{
-  --paper:#F3F1EC; --paper-2:#E9E6DF; --ink:#1B1D22; --ink-2:#4A4D55; --muted:#7A7D85; --rule:#D3CFC6;
-  --street:#FFFFFF; --street-edge:#C9C5BB; --block:#E2DED6; --park:#B9CDA8; --park-ink:#3F6533;
-  --listing:#C4472B; --apparel:#2F6F9F; --art:#3E8E5A;
-  --t1:#2E4A6B; --t2:#5B7EA0; --t3:#9DB3C9; --t4:#D5DEE8;
-  --bar:#2F6F9F; --bar-neg:#C4472B;
-  --panel:#FFFFFF; --focus:#C4472B;
+  --paper:#FFFFFF; --paper-2:#F2F2F0; --ink:#000000; --ink-2:#2B2B2B; --muted:#6D6E71; --rule:#D1D1CF;
+  --sign:#000000; --sign-ink:#FFFFFF; --sign-muted:#A7A9AC;
+  --ground:#F0EAD8; --street:#FFFFFF; --park:#CFDDB8; --park-ink:#2E5A26;
+  --listing:#EE352E; --apparel:#0039A6; --art:#00933C;
+  --t1:#000000; --t2:#4A4A4A; --t3:#A7A9AC; --t4:#D6D6D3;
+  --bar:#0039A6; --bar-neg:#EE352E; --yellow:#FCCC0A;
+  --panel:#FFFFFF; --focus:#FCCC0A;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#17191D; --paper-2:#1F2227; --ink:#ECE9E2; --ink-2:#C2BFB7; --muted:#8C8F97; --rule:#33373E;
-    --street:#2A2E35; --street-edge:#3E434C; --block:#1C1F24; --park:#2F4A2A; --park-ink:#A8C79A;
-    --listing:#E86A4C; --apparel:#5FA0D6; --art:#6FBF86;
-    --t1:#9DB3C9; --t2:#6E90B4; --t3:#405C7A; --t4:#2A3542;
-    --bar:#5FA0D6; --bar-neg:#E86A4C;
-    --panel:#1F2227; --focus:#E86A4C;
+    --paper:#0C0C0C; --paper-2:#171717; --ink:#FFFFFF; --ink-2:#D9D9D9; --muted:#9A9C9F; --rule:#2E2E2E;
+    --sign:#FFFFFF; --sign-ink:#000000; --sign-muted:#4A4A4A;
+    --ground:#1F1D17; --street:#333029; --park:#2C4126; --park-ink:#A9CF95;
+    --listing:#FF5A52; --apparel:#4F7FE0; --art:#2FB85C;
+    --t1:#FFFFFF; --t2:#BDBDBD; --t3:#6E6E6E; --t4:#3A3A3A;
+    --bar:#4F7FE0; --bar-neg:#FF5A52; --yellow:#FCCC0A;
+    --panel:#171717; --focus:#FCCC0A;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#17191D; --paper-2:#1F2227; --ink:#ECE9E2; --ink-2:#C2BFB7; --muted:#8C8F97; --rule:#33373E;
-  --street:#2A2E35; --street-edge:#3E434C; --block:#1C1F24; --park:#2F4A2A; --park-ink:#A8C79A;
-  --listing:#E86A4C; --apparel:#5FA0D6; --art:#6FBF86;
-  --t1:#9DB3C9; --t2:#6E90B4; --t3:#405C7A; --t4:#2A3542;
-  --bar:#5FA0D6; --bar-neg:#E86A4C;
-  --panel:#1F2227; --focus:#E86A4C;
+  --paper:#0C0C0C; --paper-2:#171717; --ink:#FFFFFF; --ink-2:#D9D9D9; --muted:#9A9C9F; --rule:#2E2E2E;
+  --sign:#FFFFFF; --sign-ink:#000000; --sign-muted:#4A4A4A;
+  --ground:#1F1D17; --street:#333029; --park:#2C4126; --park-ink:#A9CF95;
+  --listing:#FF5A52; --apparel:#4F7FE0; --art:#2FB85C;
+  --t1:#FFFFFF; --t2:#BDBDBD; --t3:#6E6E6E; --t4:#3A3A3A;
+  --bar:#4F7FE0; --bar-neg:#FF5A52; --yellow:#FCCC0A;
+  --panel:#171717; --focus:#FCCC0A;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:"Archivo",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;font-size:15px;line-height:1.5;font-variant-numeric:tabular-nums}
-.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
-h1,h2,h3{font-family:"Archivo",system-ui,sans-serif;font-variation-settings:"wdth" 112;letter-spacing:-.01em;text-wrap:balance;margin:0}
-h1{font-size:clamp(30px,4.5vw,46px);font-weight:900;line-height:1.02}
-h2{font-size:22px;font-weight:800;margin:0 0 12px}
-h3{font-size:16px;font-weight:700;margin:0 0 6px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:15px;line-height:1.45;font-variant-numeric:tabular-nums}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 60px}
+h1,h2,h3{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.01em;text-wrap:balance;margin:0}
 p{max-width:68ch;margin:0 0 10px}
-.eyebrow{font-family:"Archivo Narrow",Archivo,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--muted);font-weight:600}
-header{display:grid;grid-template-columns:1fr;gap:14px;padding-bottom:22px;border-bottom:2px solid var(--ink)}
-header .sub{color:var(--ink-2);max-width:72ch;font-size:16px}
-.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 8px}
-.verdict .v{border-top:4px solid var(--ink);padding:10px 0 0}
-.verdict .v.a{border-top-color:var(--apparel)} .verdict .v.b{border-top-color:var(--listing)} .verdict .v.c{border-top-color:var(--art)}
-.verdict .rank{font-family:"Archivo Narrow",sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.verdict h3{font-size:18px;margin:2px 0 4px}
-.verdict p{font-size:14px;color:var(--ink-2);margin:0}
-.warn{margin:18px 0 0;padding:12px 14px;border-left:4px solid var(--listing);background:var(--paper-2);max-width:none;font-size:15px}
+/* station-sign header */
+.sign{background:var(--sign);color:var(--sign-ink);margin:0 -20px;padding:22px 20px 20px;border-bottom:6px solid var(--sign-ink)}
+.sign .in{max-width:1140px;margin:0 auto}
+.sign .top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--sign-muted);margin-bottom:10px}
+.sign h1{font-size:clamp(30px,4.6vw,50px);font-weight:700;line-height:1.02;color:var(--sign-ink)}
+.sign .sub{color:var(--sign-ink);opacity:.85;max-width:72ch;font-size:16px;margin-top:10px}
+.bullet{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:#fff;font-family:Helvetica,Arial,sans-serif;flex:none}
+.bullet.sm{width:20px;height:20px;font-size:12px}
+.bullet.listing{background:var(--listing)} .bullet.apparel{background:var(--apparel)} .bullet.art{background:var(--art)}
+.bullet.L{background:#A7A9AC} .bullet.F{background:#FF6319} .bullet.six{background:#00933C}
+/* section bars */
+.bar-h{background:var(--sign);color:var(--sign-ink);display:flex;align-items:center;gap:12px;padding:10px 14px;margin:44px 0 16px;border-left:10px solid var(--yellow)}
+.bar-h h2{font-size:21px;font-weight:700;color:var(--sign-ink)}
+.bar-h .dir{margin-left:auto;font-size:12px;color:var(--sign-muted);text-transform:uppercase;letter-spacing:.08em}
+h3{font-size:16px;font-weight:700;margin:0 0 6px}
+.eyebrow{text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--muted);font-weight:700}
+.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:26px 0 8px;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.verdict .v{padding:14px 14px 16px;border-right:1px solid var(--rule);display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start}
+.verdict .v:last-child{border-right:0}
+.verdict .stop{width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+.verdict h3{font-size:18px;margin:4px 0 2px}
+.verdict p{font-size:14px;color:var(--ink-2);margin:0;grid-column:2}
+.warn{margin:18px 0 0;padding:12px 14px;border-left:10px solid var(--listing);background:var(--paper-2);max-width:none;font-size:15px}
 .warn strong{color:var(--listing)}
-section{margin-top:44px}
 .grid2{display:grid;grid-template-columns:1.6fr 1fr;gap:22px;align-items:start}
-.mapbox{background:var(--paper-2);border:1px solid var(--rule);padding:10px;overflow-x:auto}
+.mapbox{background:var(--ground);border:2px solid var(--ink);padding:8px;overflow-x:auto}
 .mapbox svg{width:100%;height:auto;display:block;min-width:560px}
-.controls{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 10px;font-size:14px}
-.controls label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
-.controls input{accent-color:var(--ink)}
-.sw{display:inline-block;width:12px;height:12px;border-radius:50%}
-.sw.listing{background:var(--listing)} .sw.apparel{background:var(--apparel)} .sw.art{background:var(--art);border-radius:2px;transform:rotate(45deg)}
-.legend-tier{display:inline-flex;gap:4px;align-items:center}
-.legend-tier i{display:inline-block;width:18px;height:6px}
-.detail{background:var(--panel);border:1px solid var(--rule);padding:16px;min-height:220px;position:sticky;top:12px}
-.detail .eyebrow{margin-bottom:4px}
-.detail h3{font-size:19px}
-.detail .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:10px 0;font-size:14px}
-.detail .kv b{font-weight:600;color:var(--muted);font-family:"Archivo Narrow",sans-serif;text-transform:uppercase;letter-spacing:.06em;font-size:12px;padding-top:2px}
-.detail .hint{color:var(--muted);font-size:13px}
+.key{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;margin:0 0 10px;font-size:14px;padding:10px 12px;background:var(--paper-2);border-top:2px solid var(--ink)}
+.key .kt{font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;margin-right:4px}
+.key label{display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.key input{accent-color:var(--ink)}
+.legend-tier{display:inline-flex;gap:3px;align-items:center}
+.legend-tier i{display:inline-block;width:18px;height:8px}
+.detail{background:var(--sign);color:var(--sign-ink);border:2px solid var(--ink);padding:16px;min-height:220px;position:sticky;top:12px}
+.detail .eyebrow{color:var(--sign-muted);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.detail h3{font-size:22px;font-weight:700;color:var(--sign-ink)}
+.detail .kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:12px 0;font-size:14px}
+.detail .kv b{font-weight:700;color:var(--sign-muted);text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding-top:2px}
+.detail .hint{color:var(--sign-muted);font-size:13px;margin:0}
+.detail a{color:var(--sign-ink)}
 .tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
-.tier{border-top:6px solid;padding-top:8px;font-size:14px}
-.tier .n{font-family:"Archivo Narrow",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+.tier{border-top:8px solid;padding-top:8px;font-size:14px}
+.tier .n{font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
 .tier p{margin:4px 0 0;color:var(--ink-2);font-size:13.5px}
 table{border-collapse:collapse;width:100%;font-size:14px}
-th{font-family:"Archivo Narrow",sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:12px;color:var(--muted);text-align:left;padding:8px 10px 6px;border-bottom:2px solid var(--ink);font-weight:700}
+th{text-transform:uppercase;letter-spacing:.06em;font-size:12px;color:var(--sign-ink);background:var(--sign);text-align:left;padding:8px 10px;font-weight:700}
 td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
 td.num,th.num{text-align:right}
 .tablewrap{overflow-x:auto}
-.filters{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
-.filters button{font:inherit;font-size:13px;padding:5px 11px;border:1px solid var(--rule);background:var(--panel);color:var(--ink);cursor:pointer}
-.filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.filters button:focus-visible,.controls input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.filters{display:flex;gap:0;flex-wrap:wrap;margin:0 0 12px;border:2px solid var(--ink)}
+.filters button{font:inherit;font-size:13px;font-weight:700;padding:7px 14px;border:0;border-right:2px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer}
+.filters button:last-child{border-right:0}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.filters button:focus-visible,.key input:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
 .bands{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
-.band{padding:12px 14px;background:var(--paper-2)}
-.band .big{font-size:26px;font-weight:800;font-variation-settings:"wdth" 110;line-height:1.1}
+.band{padding:12px 14px;background:var(--paper-2);border-top:8px solid var(--ink)}
+.band:nth-child(2){border-top-color:var(--t2)} .band:nth-child(3){border-top-color:var(--t3)}
+.band .big{font-size:26px;font-weight:700;line-height:1.1}
 .band .where{font-size:13.5px;color:var(--ink-2);margin-top:4px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
-.stat{border-top:2px solid var(--rule);padding-top:8px}
-.stat .big{font-size:24px;font-weight:800;line-height:1.1}
+.stat{border-top:3px solid var(--ink);padding-top:8px}
+.stat .big{font-size:26px;font-weight:700;line-height:1.1}
 .stat .lab{font-size:13px;color:var(--ink-2);margin-top:2px}
 .stat .src{font-size:12px;color:var(--muted)}
 .chart{margin:10px 0 4px}
 .chart svg{width:100%;height:auto;display:block}
-.chart text{font-family:"Archivo Narrow",Archivo,sans-serif;font-size:12px;fill:var(--ink-2)}
-.chart text.val{fill:var(--ink);font-weight:600}
+.chart text{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;fill:var(--ink-2)}
+.chart text.val{fill:var(--ink);font-weight:700}
 .chart line.axis{stroke:var(--rule)}
 .cap{font-size:13px;color:var(--muted);max-width:none}
 .months{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:12px 0 6px}
-.mo{padding:8px 6px 10px;background:var(--paper-2);min-height:150px;display:flex;flex-direction:column;gap:6px;border-top:5px solid var(--t4)}
+.mo{padding:8px 6px 10px;background:var(--paper-2);min-height:150px;display:flex;flex-direction:column;gap:6px;border-top:8px solid var(--t4)}
 .mo[data-i="2"]{border-top-color:var(--t4)} .mo[data-i="3"]{border-top-color:var(--t3)} .mo[data-i="4"]{border-top-color:var(--t2)} .mo[data-i="5"]{border-top-color:var(--t1)}
-.mo .m{font-family:"Archivo Narrow",sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.mo .m{font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
 .mo .e{font-size:12px;color:var(--ink-2);line-height:1.3}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 ul{padding-left:18px;margin:6px 0}
 li{margin:3px 0}
 .who{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.who .w{background:var(--paper-2);padding:14px}
+.who .w{background:var(--paper-2);padding:14px;border-top:8px solid var(--ink)}
 .who .w h3{font-size:16px}
 .who .w p{font-size:14px;color:var(--ink-2);margin:0}
 .src-list{font-size:13px;columns:2;column-gap:28px}
@@ -108,49 +121,51 @@ li{margin:3px 0}
 a{color:var(--apparel)}
 .pin{cursor:pointer}
 .pin:focus{outline:none}
-.pin:focus-visible circle,.pin:focus-visible rect,.pin:focus-visible path{stroke:var(--focus);stroke-width:3}
-.pin.active circle,.pin.active rect,.pin.active path{stroke:var(--ink);stroke-width:3}
+.pin:focus-visible circle{stroke:var(--focus);stroke-width:3}
+.pin.active circle{stroke:var(--yellow);stroke-width:3.5}
 @media (max-width:860px){
   .grid2,.two,.who{grid-template-columns:1fr}
   .verdict,.tiers,.bands,.stats{grid-template-columns:1fr 1fr}
+  .verdict .v{border-right:0;border-bottom:1px solid var(--rule)}
   .months{grid-template-columns:repeat(4,1fr)}
   .src-list{columns:1}
   .detail{position:static}
 }
 @media (max-width:520px){.verdict,.tiers,.bands,.stats{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:no-preference){.pin circle,.pin rect,.pin path{transition:stroke-width .12s}}
+@media (prefers-reduced-motion:no-preference){.pin circle{transition:stroke-width .12s}}
 </style>
 
 <div class="wrap">
-<header>
-  <div class="eyebrow">Site brief · East Village, Manhattan · Sept 2026</div>
-  <h1>Where an apparel & art shop can actually pencil in the East Village</h1>
+<header class="sign"><div class="in">
+  <div class="top"><span class="bullet six">6</span><span class="bullet L">L</span><span class="bullet F">F</span><span>Astor Pl · 1 Av · 2 Av &nbsp;·&nbsp; Site brief · East Village, Manhattan · Sept 2026</span></div>
+  <h1>Where an apparel &amp; art shop can actually pencil in the East Village</h1>
   <div class="sub">One map of what is for rent, who is already selling clothes and art, who walks these blocks, and when. Built from live listings, the city's East Village needs assessment, MTA ridership, and NYC Tourism data. Pins are placed at block level from street addresses; confirm exact frontage on a walk.</div>
-</header>
+</div></header>
 
 <div class="verdict">
-  <div class="v a"><div class="rank">First look</div><h3>E 9th St, 1st–2nd Ave</h3><p>The clothing cluster: 17+ boutiques and vintage shops on one block, ask rents near $96–130/SF, one block from the 1st Ave L. Shoppers already come here to buy clothes.</p></div>
-  <div class="v b"><div class="rank">Second</div><h3>St Marks Pl, 2nd Ave → Ave A</h3><p>Highest walk-by volume: tourists, NYU, nightlife. Asks $160–225/SF. Sephora and Barnes & Noble arrived at the 3rd Ave end in 2026, so rents are heading up.</p></div>
-  <div class="v c"><div class="rank">Third</div><h3>Avenue A, 5th–11th (Tompkins frontage)</h3><p>Local disposable income and evening traffic, roughly $100–150/SF, and enough vacancy (18% pre-COVID) to negotiate. Weaker daytime tourist flow.</p></div>
+  <div class="v"><div class="stop">1</div><h3>E 9th St, 1st–2nd Ave</h3><p>The clothing cluster: 17+ boutiques and vintage shops on one block, ask rents near $96–130/SF, one block from the 1st Ave L. Shoppers already come here to buy clothes.</p></div>
+  <div class="v"><div class="stop">2</div><h3>St Marks Pl, 2nd Ave → Ave A</h3><p>Highest walk-by volume: tourists, NYU, nightlife. Asks $160–225/SF. Sephora and Barnes &amp; Noble arrived at the 3rd Ave end in 2026, so rents are heading up.</p></div>
+  <div class="v"><div class="stop">3</div><h3>Avenue A, 5th–11th (Tompkins frontage)</h3><p>Local disposable income and evening traffic, roughly $100–150/SF, and enough vacancy (18% pre-COVID) to negotiate. Weaker daytime tourist flow.</p></div>
 </div>
 
 <p class="warn"><strong>The rent math is the whole decision.</strong> Independent apparel stores sell about $400–535 per square foot a year. At a St Marks ask of $200/SF, rent alone is 40–50% of typical sales. Only the ~$100/SF band (E 9th, E 7th, upper Ave A, side streets) lets floor sales carry the lease at a normal 20–25% occupancy cost. Anything pricier needs online, wholesale or event revenue on top, or a smaller room (400–750 SF).</p>
 
 <section>
-  <h2>The map</h2>
-  <div class="controls">
-    <label><input type="checkbox" id="l-listing" checked><span class="sw listing"></span> Available storefronts (<span id="n-listing"></span>)</label>
-    <label><input type="checkbox" id="l-apparel" checked><span class="sw apparel"></span> Apparel & vintage (<span id="n-apparel"></span>)</label>
-    <label><input type="checkbox" id="l-art" checked><span class="sw art"></span> Art, prints, books (<span id="n-art"></span>)</label>
+  <div class="bar-h"><h2>The map</h2><span class="dir">Uptown ↑ · Houston ↓</span></div>
+  <div class="key">
+    <span class="kt">Key</span>
+    <label><input type="checkbox" id="l-listing" checked><span class="bullet sm listing">R</span> For rent (<span id="n-listing"></span>)</label>
+    <label><input type="checkbox" id="l-apparel" checked><span class="bullet sm apparel">A</span> Apparel &amp; vintage (<span id="n-apparel"></span>)</label>
+    <label><input type="checkbox" id="l-art" checked><span class="bullet sm art">G</span> Art, prints, books (<span id="n-art"></span>)</label>
     <label><input type="checkbox" id="l-tier" checked><span class="legend-tier"><i style="background:var(--t1)"></i><i style="background:var(--t2)"></i><i style="background:var(--t3)"></i><i style="background:var(--t4)"></i></span> Corridor strength</label>
   </div>
   <div class="grid2">
     <div class="mapbox"><svg id="map" viewBox="0 0 900 700" role="img" aria-label="Schematic map of the East Village street grid with available storefronts and competing shops"></svg></div>
     <aside class="detail" id="detail" aria-live="polite">
-      <div class="eyebrow">Select a pin</div>
-      <h3>Click any dot on the map</h3>
-      <p class="hint">Circles are storefronts for rent. Squares are apparel and vintage shops. Diamonds are art, print and book shops. Subway badges use the real MTA line colors.</p>
-      <div class="kv"><b>Grid</b><span>Bowery / 3rd Ave on the left, Avenue D on the right, Houston at the bottom, 14th St at the top. St Marks is 8th St west of Avenue A.</span></div>
+      <div class="eyebrow">Select a stop</div>
+      <h3>Tap any bullet on the map</h3>
+      <div class="kv"><b>R</b><span>Storefront for rent</span><b>A</b><span>Apparel or vintage shop</span><b>G</b><span>Art, print or book shop</span><b>Grid</b><span>Bowery / 3rd Ave on the left, Avenue D on the right, Houston at the bottom, 14th St at the top. St Marks is 8th St west of Avenue A.</span></div>
+      <p class="hint">Subway bullets use the real MTA line colors.</p>
     </aside>
   </div>
   <div class="tiers">
@@ -163,7 +178,7 @@ a{color:var(--apparel)}
 </section>
 
 <section>
-  <h2>What space costs</h2>
+  <div class="bar-h"><h2>What space costs</h2><span class="dir">Asking rents, Sept 2026</span></div>
   <div class="bands">
     <div class="band"><div class="eyebrow">Prime</div><div class="big">$160–225 /SF/yr</div><div class="where">St Marks Pl, 2nd Ave (St Marks–10th), Astor/Cooper Sq. A 1,000 SF room runs $13k–19k a month.</div></div>
     <div class="band"><div class="eyebrow">Core</div><div class="big">$100–160 /SF/yr</div><div class="where">1st Ave, Ave A, E 7th, E 9th, E 10th. A 1,000 SF room runs $8k–13k a month.</div></div>
@@ -193,30 +208,30 @@ a{color:var(--apparel)}
 </section>
 
 <section>
-  <h2>Who is already selling clothes and art here</h2>
+  <div class="bar-h"><h2>Who is already selling clothes and art here</h2><span class="dir">Competition</span></div>
   <div class="stats">
-    <div class="stat"><div class="big">59</div><div class="lab">clothing, shoe & jewelry storefronts</div><div class="src">SBS inventory, 2019</div></div>
+    <div class="stat"><div class="big">59</div><div class="lab">clothing, shoe &amp; jewelry storefronts</div><div class="src">SBS inventory, 2019</div></div>
     <div class="stat"><div class="big">+$249M</div><div class="lab">clothing sales above what residents spend</div><div class="src">ESRI 2020 — a destination market</div></div>
     <div class="stat"><div class="big">$174k</div><div class="lab">median annual sales per East Village business</div><div class="src">NYC Finance tax data, 2020</div></div>
-    <div class="stat"><div class="big">~$1.4M</div><div class="lab">est. revenue, Trash & Vaudeville (9 staff)</div><div class="src">Datanyze estimate, low confidence</div></div>
+    <div class="stat"><div class="big">~$1.4M</div><div class="lab">est. revenue, Trash &amp; Vaudeville (9 staff)</div><div class="src">Datanyze estimate, low confidence</div></div>
   </div>
   <p>The neighborhood's clothing stores sell roughly a quarter-billion dollars more than its own residents spend on clothes. That is the clearest number in this brief: people travel here to buy apparel, mostly vintage and independent. The same data shows a $57.8M surplus in books and music and a $502M surplus in restaurants. The East Village leaks spending only on groceries, gas and department stores.</p>
   <div class="chart" id="leak"></div>
   <p class="cap">Retail surplus (left) means local stores sell more than residents spend, so outside shoppers are coming in. Leakage (right) means residents shop elsewhere. ESRI/Infogroup 2020 via NYC SBS.</p>
   <div class="two" style="margin-top:18px">
     <div>
-      <h3>Apparel & vintage, by block</h3>
+      <h3>Apparel &amp; vintage, by block</h3>
       <ul id="comp-apparel"></ul>
     </div>
     <div>
-      <h3>Art, prints, books & supplies</h3>
+      <h3>Art, prints, books &amp; supplies</h3>
       <ul id="comp-art"></ul>
       <h3 style="margin-top:14px">2026 arrivals that change the west end</h3>
       <ul>
-        <li><b>Sephora</b>, 7,800 SF at 3rd Ave & St Marks (opened May 2026)</li>
-        <li><b>Barnes & Noble</b>, announced May 2026</li>
+        <li><b>Sephora</b>, 7,800 SF at 3rd Ave &amp; St Marks (opened May 2026)</li>
+        <li><b>Barnes &amp; Noble</b>, announced May 2026</li>
         <li><b>ATANY</b> made-to-order tees, 316 Bowery</li>
-        <li><b>Eloise & Daisy</b> vintage, 506 E 13th; <b>Pink Lion</b>, 318 E 9th</li>
+        <li><b>Eloise &amp; Daisy</b> vintage, 506 E 13th; <b>Pink Lion</b>, 318 E 9th</li>
       </ul>
     </div>
   </div>
@@ -224,7 +239,7 @@ a{color:var(--apparel)}
 </section>
 
 <section>
-  <h2>Who shops here</h2>
+  <div class="bar-h"><h2>Who shops here</h2><span class="dir">Riders</span></div>
   <div class="who">
     <div class="w"><h3>Locals: two neighborhoods in one</h3><p>62,000 residents at 96,000 per square mile. West of Avenue B: renters aged 25–44 (43% of the population), 58% with a degree, private estimates put median household income at $106k–124k. East of Avenue C: long-tenured, lower-income households in public housing pull the official median down to $57k and poverty to 24%. Household size is 1.83; only 16% own a car.</p></div>
     <div class="w"><h3>Daytime: workers and students</h3><p>15,500 people work in the East Village; 39% of those jobs are food, bars and arts, 21% education and health. Cooper Union sits at the west edge and NYU keeps adding dorms (it bought 35 Cooper Square in 2024). Students thin out mid-May to late August.</p></div>
@@ -241,14 +256,14 @@ a{color:var(--apparel)}
 </section>
 
 <section>
-  <h2>When they shop</h2>
+  <div class="bar-h"><h2>When they shop</h2><span class="dir">Service calendar 2026</span></div>
   <p>The East Village behaves like what Placer.ai calls a lifestyle corridor: traffic peaks in spring and early summer and again in December, rather than December only like SoHo. Nationally, November–December carry about 19% of annual retail sales. Pop-up operators here price August lowest and fashion weeks (February, September) and the holidays highest.</p>
   <div class="months" id="months"></div>
   <p class="cap">Bar color is our estimate of relative retail traffic, 1 (low) to 5 (peak), combining NRF holiday shares, Placer.ai corridor typology, pop-up pricing and the event calendar. Dates are 2026.</p>
 </section>
 
 <section>
-  <h2>How to read the risks</h2>
+  <div class="bar-h"><h2>How to read the risks</h2><span class="dir">Service changes</span></div>
   <div class="two">
     <div>
       <h3>Working for you</h3>
@@ -272,7 +287,7 @@ a{color:var(--apparel)}
 </section>
 
 <section>
-  <h2>Sources</h2>
+  <div class="bar-h"><h2>Sources</h2></div>
   <ul class="src-list">
     <li><a href="https://www.propertyshark.com/cre/retail/us/ny/manhattan/east-village/">PropertyShark, East Village retail listings</a></li>
     <li><a href="https://www.commercialcafe.com/retail/us/ny/manhattan/east-village/">CommercialCafe, East Village retail (76 listings)</a></li>
@@ -303,7 +318,7 @@ a{color:var(--apparel)}
 // ---- geometry: avenue index 0..6 (Bowery/3rd, 2nd, 1st, A, B, C, D); street index 0..14 (Houston..14th)
 const X0=70, DX=125, Y0=640, DY=40;
 const ax=i=>X0+i*DX, sy=j=>Y0-j*DY;
-const aveNames=['Bowery / 3rd Av','2nd Av','1st Av','Av A','Av B','Av C','Av D'];
+const aveNames=['Bowery / 3 Av','2 Av','1 Av','Av A','Av B','Av C','Av D'];
 
 // ---- data
 const listings=[
@@ -410,7 +425,6 @@ const art=[
  {n:'La Sirena',a:'27 E 3rd',x:0.45,y:3,d:'Mexican folk art'},
  {n:'Babs Home & Pantry',a:'149 Ave A',x:3,y:9.6,d:'Home goods by local artists'}
 ];
-// counts
 document.getElementById('n-listing').textContent=listings.length;
 document.getElementById('n-apparel').textContent=apparel.length;
 document.getElementById('n-art').textContent=art.length;
@@ -422,74 +436,76 @@ const tiers={
  t3:{ew:[[0,1,9],[3,4,9],[3,4,7],[0,4,6],[1,4,11],[0,4,13],[0,4,12],[0,4,5],[0,4,4],[0,4,3],[0,4,2],[0,4,1],[3,4,10]],ns:[[4,0,14],[3,0,2],[3,12,14],[0,8,14]]},
  t4:{ew:[[4,6,1],[4,6,2],[4,6,3],[4,6,4],[4,6,5],[4,6,6],[4,6,7],[4,6,8],[4,6,9],[4,6,10],[4,6,11],[4,6,12],[4,6,13]],ns:[[5,0,14],[6,0,14]]}
 };
+const tierWidth={t1:10,t2:7,t3:4,t4:2.5};
 
 const svg=document.getElementById('map');
 const NS='http://www.w3.org/2000/svg';
 const el=(t,attrs,txt)=>{const e=document.createElementNS(NS,t);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;return e;};
+const FONT='"Helvetica Neue", Helvetica, Arial, sans-serif';
 
-// blocks background
-svg.appendChild(el('rect',{x:0,y:0,width:900,height:700,fill:'var(--block)'}));
+// ground
+svg.appendChild(el('rect',{x:0,y:0,width:900,height:700,fill:'var(--ground)'}));
 // park
 svg.appendChild(el('rect',{x:ax(3),y:sy(10),width:DX,height:DY*3,fill:'var(--park)'}));
-svg.appendChild(el('text',{x:ax(3)+DX/2,y:sy(8.5)+4,'text-anchor':'middle','font-family':'Archivo Narrow, sans-serif','font-size':'12','font-weight':'700',fill:'var(--park-ink)'},'TOMPKINS SQ'));
-// streets: white lines
-const gStreets=el('g',{stroke:'var(--street)','stroke-width':'8','stroke-linecap':'square'});
+svg.appendChild(el('text',{x:ax(3)+DX/2,y:sy(8.5)+4,'text-anchor':'middle','font-family':FONT,'font-size':'11','font-weight':'700',fill:'var(--park-ink)'},'Tompkins Sq'));
+// streets: thin white
+const gStreets=el('g',{stroke:'var(--street)','stroke-width':'6','stroke-linecap':'square'});
 for(let j=0;j<=14;j++){ if(j===8||j===9) {gStreets.appendChild(el('line',{x1:ax(0)-40,y1:sy(j),x2:ax(3),y2:sy(j)})); gStreets.appendChild(el('line',{x1:ax(4),y1:sy(j),x2:ax(6)+30,y2:sy(j)}));} else gStreets.appendChild(el('line',{x1:ax(0)-40,y1:sy(j),x2:ax(6)+30,y2:sy(j)})); }
-for(let i=0;i<=6;i++) gStreets.appendChild(el('line',{x1:ax(i),y1:sy(14)-20,x2:ax(i),y2:sy(0)+20,'stroke-width':i<=3?'12':'9'}));
+for(let i=0;i<=6;i++) gStreets.appendChild(el('line',{x1:ax(i),y1:sy(14)-20,x2:ax(i),y2:sy(0)+20,'stroke-width':i<=3?'10':'7'}));
 svg.appendChild(gStreets);
-// tier overlay
-const gTier=el('g',{id:'g-tier','stroke-linecap':'butt',opacity:'0.9'});
+// tier overlay: route-style lines, one hue light→dark, thickness by strength
+const gTier=el('g',{id:'g-tier','stroke-linecap':'round','stroke-linejoin':'round'});
 const tierColor={t1:'var(--t1)',t2:'var(--t2)',t3:'var(--t3)',t4:'var(--t4)'};
 ['t4','t3','t2','t1'].forEach(t=>{
-  tiers[t].ew.forEach(s=>gTier.appendChild(el('line',{x1:ax(s[0]),y1:sy(s[2]),x2:ax(s[1]),y2:sy(s[2]),stroke:tierColor[t],'stroke-width':'4'})));
-  tiers[t].ns.forEach(s=>gTier.appendChild(el('line',{x1:ax(s[0]),y1:sy(s[1]),x2:ax(s[0]),y2:sy(s[2]),stroke:tierColor[t],'stroke-width':'5'})));
+  tiers[t].ew.forEach(s=>gTier.appendChild(el('line',{x1:ax(s[0]),y1:sy(s[2]),x2:ax(s[1]),y2:sy(s[2]),stroke:tierColor[t],'stroke-width':tierWidth[t]})));
+  tiers[t].ns.forEach(s=>gTier.appendChild(el('line',{x1:ax(s[0]),y1:sy(s[1]),x2:ax(s[0]),y2:sy(s[2]),stroke:tierColor[t],'stroke-width':tierWidth[t]})));
 });
 svg.appendChild(gTier);
 // labels
-const gLab=el('g',{'font-family':'Archivo Narrow, sans-serif','font-size':'11',fill:'var(--ink-2)'});
-aveNames.forEach((n,i)=>gLab.appendChild(el('text',{x:ax(i),y:sy(14)-28,'text-anchor':'middle','font-weight':'700'},n)));
-for(let j=0;j<=14;j++){const name=j===0?'Houston':j===8?'St Marks / 8th':j+(j===1?'st':j===2?'nd':j===3?'rd':'th');gLab.appendChild(el('text',{x:ax(6)+38,y:sy(j)+4,'font-size':'10'},name));}
-gLab.appendChild(el('text',{x:ax(0)-42,y:sy(8)-8,'font-size':'10','font-weight':'700'},'Astor Pl'));
-gLab.appendChild(el('text',{x:ax(0)+6,y:sy(6.5)+3,'font-size':'10'},'Cooper Sq'));
+const gLab=el('g',{'font-family':FONT,'font-size':'11',fill:'var(--ink)'});
+aveNames.forEach((n,i)=>gLab.appendChild(el('text',{x:ax(i),y:sy(14)-30,'text-anchor':'middle','font-weight':'700'},n)));
+for(let j=0;j<=14;j++){const name=j===0?'Houston St':j===8?'St Marks Pl / E 8 St':'E '+j+' St';gLab.appendChild(el('text',{x:ax(6)+38,y:sy(j)+4,'font-size':'10','font-weight':j===8||j===0?'700':'400'},name));}
+gLab.appendChild(el('text',{x:ax(0)-42,y:sy(8)-16,'font-size':'10','font-weight':'700'},'Astor Pl'));
+gLab.appendChild(el('text',{x:ax(0)+8,y:sy(6.5)+3,'font-size':'10'},'Cooper Sq'));
 svg.appendChild(gLab);
-// subway badges
-const subs=[{l:'6',c:'#00933C',x:ax(0)-40,y:sy(8),t:'Astor Pl · 4.1M/yr'},{l:'L',c:'#A7A9AC',x:ax(0),y:sy(14),t:'3rd Av · 6.7k/wkday'},{l:'L',c:'#A7A9AC',x:ax(2),y:sy(14),t:'1st Av · 6.3M/yr'},{l:'F',c:'#FF6319',x:ax(1)+55,y:sy(0),t:'2nd Av · 4.2M/yr'}];
+// subway bullets
+const subs=[{l:'6',c:'#00933C',x:ax(0)-40,y:sy(8),t:'Astor Pl · 4.1M/yr'},{l:'L',c:'#A7A9AC',x:ax(0),y:sy(14),t:'3 Av · 6.7k/wkday'},{l:'L',c:'#A7A9AC',x:ax(2),y:sy(14),t:'1 Av · 6.3M/yr'},{l:'F',c:'#FF6319',x:ax(1)+55,y:sy(0),t:'2 Av · 4.2M/yr'}];
 const gSub=el('g');
-subs.forEach(s=>{const g=el('g');g.appendChild(el('circle',{cx:s.x,cy:s.y,r:11,fill:s.c,stroke:'#fff','stroke-width':'2'}));g.appendChild(el('text',{x:s.x,y:s.y+4.5,'text-anchor':'middle','font-family':'Helvetica, Arial, sans-serif','font-size':'13','font-weight':'700',fill:'#fff'},s.l));g.appendChild(el('title',{},s.t));gSub.appendChild(g);});
+subs.forEach(s=>{const g=el('g');g.appendChild(el('circle',{cx:s.x,cy:s.y,r:13,fill:s.c,stroke:'#fff','stroke-width':'2.5'}));g.appendChild(el('text',{x:s.x,y:s.y+5,'text-anchor':'middle','font-family':FONT,'font-size':'14','font-weight':'700',fill:'#fff'},s.l));g.appendChild(el('title',{},s.t));gSub.appendChild(g);});
 svg.appendChild(gSub);
 
-// pins
+// pins as route bullets
 const detail=document.getElementById('detail');
 let active=null;
 function showDetail(kind,d){
   if(active) active.classList.remove('active');
-  const label=kind==='listing'?'Available storefront':kind==='apparel'?'Apparel & vintage':'Art, prints & books';
+  const label=kind==='listing'?'For rent':kind==='apparel'?'Apparel & vintage':'Art, prints & books';
+  const letter=kind==='listing'?'R':kind==='apparel'?'A':'G';
   let kv='';
   if(kind==='listing'){
     kv=`<div class="kv"><b>Block</b><span>${d.blk}</span><b>Size</b><span>${d.sf?(typeof d.sf==='number'?d.sf.toLocaleString()+' SF':d.sf+' SF'):'not listed'}</span><b>Ask</b><span>${d.ask}${d.psf?` (≈ $${d.psf}/SF/yr)`:''}</span>${d.psf?`<b>Sales to carry it</b><span>$${Math.round(d.psf/0.2).toLocaleString()}/SF at 20% occupancy</span>`:''}${d.note?`<b>Notes</b><span>${d.note}</span>`:''}</div>`;
   } else {
     kv=`<div class="kv"><b>Address</b><span>${d.a}</span><b>What</b><span>${d.d}</span></div>`;
   }
-  detail.innerHTML=`<div class="eyebrow">${label}</div><h3>${d.n}</h3>${kv}<p class="hint">Block-level placement from the street address.</p>`;
+  detail.innerHTML=`<div class="eyebrow"><span class="bullet sm ${kind}">${letter}</span>${label}</div><h3>${d.n}</h3>${kv}<p class="hint">Block-level placement from the street address.</p>`;
 }
-function addPins(arr,kind,shape){
+function addPins(arr,kind,letter){
   const g=el('g',{id:'g-'+kind});
+  const col=kind==='listing'?'var(--listing)':kind==='apparel'?'var(--apparel)':'var(--art)';
   arr.forEach(d=>{
-    const cx=ax(d.x), cy=sy(d.y)+(kind==='listing'?-9:kind==='apparel'?9:0);
+    const cx=ax(d.x), cy=sy(d.y)+(kind==='listing'?-10:kind==='apparel'?10:0);
     const p=el('g',{class:'pin',tabindex:'0',role:'button'});
     p.setAttribute('aria-label',d.n);
-    let s;
-    if(shape==='circle') s=el('circle',{cx,cy,r:7,fill:'var(--listing)',stroke:'var(--paper)','stroke-width':'2'});
-    else if(shape==='square') s=el('rect',{x:cx-6,y:cy-6,width:12,height:12,fill:'var(--apparel)',stroke:'var(--paper)','stroke-width':'2'});
-    else s=el('path',{d:`M${cx} ${cy-8} L${cx+8} ${cy} L${cx} ${cy+8} L${cx-8} ${cy} Z`,fill:'var(--art)',stroke:'var(--paper)','stroke-width':'2'});
-    p.appendChild(s); p.appendChild(el('title',{},d.n+(d.a?' · '+d.a:'')));
+    p.appendChild(el('circle',{cx,cy,r:8.5,fill:col,stroke:'#fff','stroke-width':'2'}));
+    p.appendChild(el('text',{x:cx,y:cy+3.6,'text-anchor':'middle','font-family':FONT,'font-size':'10','font-weight':'700',fill:'#fff','pointer-events':'none'},letter));
+    p.appendChild(el('title',{},d.n+(d.a?' · '+d.a:'')));
     const act=()=>{showDetail(kind,d);active=p;p.classList.add('active');};
     p.addEventListener('click',act); p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act();}});
     g.appendChild(p);
   });
   svg.appendChild(g);
 }
-addPins(art,'art','diamond'); addPins(apparel,'apparel','square'); addPins(listings,'listing','circle');
+addPins(art,'art','G'); addPins(apparel,'apparel','A'); addPins(listings,'listing','R');
 [['l-listing','g-listing'],['l-apparel','g-apparel'],['l-art','g-art'],['l-tier','g-tier']].forEach(([c,g])=>{document.getElementById(c).addEventListener('change',e=>{document.getElementById(g).style.display=e.target.checked?'':'none';});});
 
 // listings table
@@ -512,7 +528,7 @@ function group(arr){const m={};arr.forEach(d=>{const k=d.a.replace(/^[\d–\-\s]
 function fillList(id,arr){const ul=document.getElementById(id);const m=group(arr);Object.keys(m).sort((a,b)=>m[b].length-m[a].length).forEach(k=>{const li=document.createElement('li');li.innerHTML=`<b>${k}</b> (${m[k].length}): `+m[k].map(d=>d.n).join(', ');ul.appendChild(li);});}
 fillList('comp-apparel',apparel); fillList('comp-art',art);
 
-// leakage chart (horizontal bars, one scale)
+// leakage chart
 (function(){
   const rows=[['Restaurants & eating places',-502],['Other misc. store retailers',-415.2],['Clothing stores',-249.2],['Shoe stores',-92.6],['Drinking places',-65.5],['Book, periodical & music',-57.8],['Health & personal care',-50.5],['Beer, wine & liquor',-34.2],['Jewelry, luggage, leather',-25.1],['Home furnishings',29.1],['Other general merchandise',146.1],['Department stores',210.7],['Gasoline stations',307.8],['Grocery stores',337]];
   const W=860,H=rows.length*24+40,L=230,R=40,mid=L+(W-L-R)*(502/(502+337)),scale=(W-L-R)/(502+337);
@@ -525,7 +541,7 @@ fillList('comp-apparel',apparel); fillList('comp-art',art);
 })();
 // subway chart
 (function(){
-  const rows=[['1st Av (L)',6.27,'#35'],['2nd Av (F)',4.24,'#67'],['Astor Pl (6)',4.06,'#75']];
+  const rows=[['1 Av (L)',6.27,'#35'],['2 Av (F)',4.24,'#67'],['Astor Pl (6)',4.06,'#75']];
   const W=860,H=rows.length*30+30,L=110,R=90,scale=(W-L-R)/7;
   let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Annual subway ridership at East Village stations, 2024">`;
   rows.forEach((r,i)=>{const y=8+i*30;const w=r[1]*scale;s+=`<text x="${L-8}" y="${y+14}" text-anchor="end">${r[0]}</text><rect x="${L}" y="${y}" width="${w}" height="18" rx="3" fill="var(--bar)"><title>${r[0]}: ${r[1]}M riders in 2024, rank ${r[2]}</title></rect><text class="val" x="${L+w+8}" y="${y+14}">${r[1]}M · rank ${r[2]}</text>`;});
